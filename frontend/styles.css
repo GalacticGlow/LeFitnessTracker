@@ -1,0 +1,177 @@
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    color: #333;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+title {
+    margin: 0;
+}
+
+.add-workout-btn {
+    margin-left: 60%;
+    margin-right: 0;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.delete-workout-btn {
+    margin-left: 0;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: darkred;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.add-workout-btn:hover {
+    background-color: #45a049;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem auto;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+th, td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+button.view-btn {
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 3px;
+}
+
+button.view-btn:hover {
+    background-color: #1976D2;
+}
+
+/* Modal */
+.modal {
+    display: flex; /* hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.modal-content h2 {
+    margin-top: 0;
+}
+
+/* Exercise Table */
+.exercise-table {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.exercise-table th, .exercise-table td {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+}
+
+.modal-buttons {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.add-exercise-btn, .close-modal-btn {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+.add-exercise-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.add-exercise-btn:hover {
+    background-color: #45a049;
+}
+
+.close-modal-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.close-modal-btn:hover {
+    background-color: #d32f2f;
+}
+
+.save-exercise-btn {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #2196F3;
+    color: white;
+}
+
+.delete-exercise-btn {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: darkred;
+    color: white;
+}
+
+.save-exercise-btn:hover {
+    background-color: #1976D2;
+}

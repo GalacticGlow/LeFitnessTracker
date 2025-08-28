@@ -33,17 +33,6 @@ title {
     border-radius: 5px;
 }
 
-.delete-workout-btn {
-    margin-left: 0;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    cursor: pointer;
-    background-color: darkred;
-    color: white;
-    border: none;
-    border-radius: 5px;
-}
-
 .add-workout-btn:hover {
     background-color: #45a049;
 }
@@ -74,7 +63,16 @@ tr:hover {
 button.view-btn {
     padding: 0.25rem 0.5rem;
     cursor: pointer;
-    background-color: #2196F3;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 3px;
+}
+
+button.delete-btn {
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    background-color: darkred;
     color: white;
     border: none;
     border-radius: 3px;
@@ -86,7 +84,7 @@ button.view-btn:hover {
 
 /* Modal */
 .modal {
-    display: flex; /* hidden by default */
+    display: none; /* hidden by default */
     position: fixed;
     top: 0;
     left: 0;

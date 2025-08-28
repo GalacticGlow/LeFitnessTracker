@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workout Tracker</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>My Workout Tracker</title>
+    <link rel="stylesheet" href="frontend/styles.css">
+    <script src="frontend/script.js"></script>
 </head>
 <body>
 <header>
-    <h1 class="title">Workout Tracker</h1>
+    <h1 class="title">My Workout Tracker</h1>
     <button class="add-workout-btn">Add Workout</button>
-    <button class="delete-workout-btn">Delete Workout</button>
 </header>
 
-<main>
+<main id="main-section">
     <table class="workouts-table">
         <thead>
         <tr>
@@ -27,24 +27,24 @@
             <td>2025-08-25</td>
             <td>Push</td>
             <td><button class="view-btn">View</button></td>
+            <td><button class="delete-btn">Delete</button></td>
         </tr>
         <tr>
             <td>2025-08-26</td>
             <td>Pull</td>
             <td><button class="view-btn">View</button></td>
+            <td><button class="delete-btn">Delete</button></td>
         </tr>
         <tr>
             <td>2025-08-27</td>
             <td>Legs</td>
             <td><button class="view-btn">View</button></td>
+            <td><button class="delete-btn">Delete</button></td>
         </tr>
         </tbody>
     </table>
 </main>
 
-<!-- Modal -->
-<!-- Modal -->
-<!-- Modal -->
 <div class="modal" id="workoutModal">
     <div class="modal-content">
         <h2>Workout Details</h2>

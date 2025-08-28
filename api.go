@@ -243,10 +243,16 @@ func updateWorkoutHandler(db *sql.DB) gin.HandlerFunc {
 
 func main() {
 	db := dbConnect()
-	addWorkout(db, "2025-05-31", "vertical_push_pull", `{"26.05_hpp" : [{"ex_name" : "Flat dumbbell press", "sets" : 3, "reps" : 12, "weight" : 14, "notes" : "Last set 15"}, {"ex_name" : "Inclined db rows", "sets" : 5, "reps" : 69, "weight" : 140, "notes" : "Last set 75"}]}`)
+	//addWorkout(db, "2025-05-31", "vertical_push_pull", `{"26.05_hpp" : [{"ex_name" : "Flat dumbbell press", "sets" : 3, "reps" : 12, "weight" : 14, "notes" : "Last set 15"}, {"ex_name" : "Inclined db rows", "sets" : 5, "reps" : 69, "weight" : 140, "notes" : "Last set 75"}]}`)
 	fmt.Println(listWorkouts(db))
 
 	router := gin.Default()
+
+	router.Static("/frontend", "./frontend")
+	router.GET("/", func(c *gin.Context) {
+		c.File("./frontend/index.html")
+	})
+
 	router.Use(cors.Default())
 	router.GET("/workout/:date", getWorkoutHandler(db))
 	router.GET("/allworkouts", listWorkoutsHandler(db))

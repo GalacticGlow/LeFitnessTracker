@@ -1,3 +1,20 @@
+function populateExerciseTable(exercises) {
+    const tbody = document.querySelector(".exercise-table tbody");
+    tbody.innerHTML = "";
+
+    Object.values(exercises).forEach(ex => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${ex.ex_name}</td>
+            <td>${ex.sets}</td>
+            <td>${ex.reps}</td>
+            <td>${ex.weight}</td>
+            <td>${ex.notes || ""}</td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     fetch("/allworkouts")
         .then(response => response.json())
@@ -30,12 +47,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 viewBtn.classList.add("view-btn");
                 viewCell.appendChild(viewBtn);
 
+                viewBtn.addEventListener("click", () => {
+                    let exercises;
+                    try {
+                        exercises = JSON.parse(workout.data);
+                    } catch (e) {
+                        console.error("Failed to parse exercise data:", workout.data, e);
+                        return;
+                    }
+
+                    populateExerciseTable(exercises)
+
+                    const modal = document.getElementById("workoutModal");
+                    modal.dataset.currentDate = workout.date.split("T")[0]; // store clean date
+                    modal.style.display = "flex";
+                });
+
                 // Delete button
-                const deleteCell = row.insertCell(3);
                 const deleteBtn = document.createElement("button");
                 deleteBtn.textContent = "Delete";
                 deleteBtn.classList.add("delete-btn");
-                deleteCell.appendChild(deleteBtn);
+                viewCell.appendChild(deleteBtn);
 
                 deleteBtn.addEventListener("click", () => {
                     if (!confirm(`Delete workout on ${workout.date}?`)) return;
@@ -67,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const viewButtons = document.querySelectorAll(".view-btn");
     const addExerciseBtn = modal.querySelector(".add-exercise-btn");
     const deleteExerciseBtn = modal.querySelector(".delete-exercise-btn");
+    const saveExercisesBtn = modal.querySelector(".save-exercise-btn")
     const exerciseTable = modal.querySelector(".exercise-table tbody");
     const addWorkoutBtn = document.querySelector(".add-workout-btn");
     const mainSect = document.getElementById("main-section");
@@ -109,8 +142,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td contenteditable="true">${date}</td>
                 <td contenteditable="true">${type}</td>
                 <td>
-                    <button class="view-btn">View</button>
-                    <button class="delete-btn">Delete</button>
+                    <div class="action-btns">
+                        <button class="view-btn">View</button>
+                        <button class="delete-btn">Delete</button>
+                    </div>
                 </td>
             `;
                 workoutTable.appendChild(row);
@@ -129,9 +164,6 @@ document.addEventListener("DOMContentLoaded", () => {
             modal.style.display = "flex";
         });
     });
-
-    // Select all current delete buttons
-    const deleteButtons = document.querySelectorAll(".delete-btn");
 
     // Open modal when clicking "View"
     workoutTable.addEventListener("click", (event) => {
@@ -163,6 +195,45 @@ document.addEventListener("DOMContentLoaded", () => {
         if (exerciseTable.rows.length > 0) {
             exerciseTable.deleteRow(exerciseTable.rows.length - 1);
         }
+    });
+
+    saveExercisesBtn.addEventListener("click", () => {
+        const rows = exerciseTable.querySelectorAll("tr");
+        const exercises = {};
+
+        rows.forEach((row, i) => {
+            const cells = row.querySelectorAll("td");
+            exercises[`exercise_${i}`] = {
+                ex_name: cells[0].textContent.trim(),
+                sets: parseInt(cells[1].textContent.trim(), 10) || 0,
+                reps: parseInt(cells[2].textContent.trim(), 10) || 0,
+                weight: parseFloat(cells[3].textContent.trim()) || 0,
+                notes: cells[4].textContent.trim()
+            };
+        });
+
+        const workoutDate = modal.dataset.currentDate;
+
+        fetch(`/updateworkout/${workoutDate}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ data: JSON.stringify(exercises) })
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.success) {
+                    alert("Workout updated successfully!");
+                    const newExercises = JSON.parse(result.data.data);
+                    populateExerciseTable(newExercises);
+                    location.reload();
+                } else {
+                    alert("Error updating workout: " + result.error);
+                }
+            })
+            .catch(err => {
+                console.error("Update failed:", err);
+                alert("An error occurred while saving.");
+            });
     });
 
     // Close modal if clicking outside

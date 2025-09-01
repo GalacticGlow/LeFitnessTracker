@@ -217,8 +217,8 @@ func removeWorkoutHandler(db *sql.DB) gin.HandlerFunc {
 
 func updateWorkoutHandler(db *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var workout workout
-		if err := c.BindJSON(&workout); err != nil {
+		var w workout
+		if err := c.BindJSON(&w); err != nil {
 			c.JSON(http.StatusBadRequest, apiResponse{
 				Success: false,
 				Error:   err.Error(),
@@ -226,17 +226,28 @@ func updateWorkoutHandler(db *sql.DB) gin.HandlerFunc {
 			return
 		}
 		date := c.Param("date")
-		dateUpdated, err := updateWorkout(db, date, workout.Data)
-		if err != nil {
+
+		if _, err := updateWorkout(db, date, w.Data); err != nil {
 			c.JSON(http.StatusInternalServerError, apiResponse{
 				Success: false,
 				Error:   err.Error(),
 			})
 			return
 		}
+
+		var updated workout
+		er := db.QueryRow("SELECT date, workout_type, exercise_data FROM workouts WHERE date=$1", date).
+			Scan(&updated.Date, &updated.Wtype, &updated.Data)
+		if er != nil {
+			c.JSON(http.StatusInternalServerError, apiResponse{
+				Success: false,
+				Error:   er.Error(),
+			})
+			return
+		}
 		c.JSON(http.StatusOK, apiResponse{
 			Success: true,
-			Data:    dateUpdated,
+			Data:    updated,
 		})
 	}
 }

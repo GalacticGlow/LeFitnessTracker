@@ -60,7 +60,13 @@ tr:hover {
     background-color: #f1f1f1;
 }
 
-button.view-btn {
+.action-btns {
+    display: flex;
+    gap: 0.5rem
+}
+
+.view-btn {
+    margin-right: 15px;
     padding: 0.25rem 0.5rem;
     cursor: pointer;
     background-color: blue;
@@ -69,7 +75,7 @@ button.view-btn {
     border-radius: 3px;
 }
 
-button.delete-btn {
+.delete-btn {
     padding: 0.25rem 0.5rem;
     cursor: pointer;
     background-color: darkred;
@@ -78,7 +84,7 @@ button.delete-btn {
     border-radius: 3px;
 }
 
-button.view-btn:hover {
+.view-btn:hover {
     background-color: #1976D2;
 }
 
